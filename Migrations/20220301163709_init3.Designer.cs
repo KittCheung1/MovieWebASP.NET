@@ -9,8 +9,8 @@ using TestWebASP.NET.Data;
 namespace TestWebASP.NET.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220228143708_movie3")]
-    partial class movie3
+    [Migration("20220301163709_init3")]
+    partial class init3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,6 +39,16 @@ namespace TestWebASP.NET.Migrations
                         {
                             CharactersId = 1,
                             MoviesId = 1
+                        },
+                        new
+                        {
+                            CharactersId = 2,
+                            MoviesId = 2
+                        },
+                        new
+                        {
+                            CharactersId = 2,
+                            MoviesId = 3
                         });
                 });
 
@@ -150,6 +160,8 @@ namespace TestWebASP.NET.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FranchiseId");
+
                     b.ToTable("Movies");
 
                     b.HasData(
@@ -189,6 +201,20 @@ namespace TestWebASP.NET.Migrations
                         .HasForeignKey("MoviesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("TestWebASP.NET.Models.Movie", b =>
+                {
+                    b.HasOne("TestWebASP.NET.Models.Franchise", null)
+                        .WithMany("Movies")
+                        .HasForeignKey("FranchiseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TestWebASP.NET.Models.Franchise", b =>
+                {
+                    b.Navigation("Movies");
                 });
 #pragma warning restore 612, 618
         }

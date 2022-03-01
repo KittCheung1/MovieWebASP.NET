@@ -8,7 +8,7 @@ using TestWebASP.NET.Data;
 
 namespace TestWebASP.NET.Migrations
 {
-    [DbContext(typeof(Context))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20220228142246_movie")]
     partial class movie
     {

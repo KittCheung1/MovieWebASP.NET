@@ -3,21 +3,18 @@ using TestWebASP.NET.Models;
 
 namespace TestWebASP.NET.Data
 {
-    public class Context : DbContext
+    public class ApplicationDbContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(@"Data source= N-SE-01-2936\SQLEXPRESS;Initial Catalog=xxxxxxx;Integrated Security=True");
-        }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-        DbSet<Character> Characters { get; set; }
-        DbSet<Movie> Movies { get; set; }
-        DbSet<Franchise> Franchises { get; set; }
+        public DbSet<Character> Characters { get; set; }
+        public DbSet<Movie> Movies { get; set; }
+        public DbSet<Franchise> Franchises { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Character>().HasData(
-                new Character { FullName = "Geralt", Gender = "Male", Alias = "Geralt of Rivia", Id = 1 },
+                new Character { FullName = "Geralt", Gender = "Male", Alias = "Geralt of Rivia", Id = 1, },
                 new Character { FullName = "Tony Stark", Gender = "Male", Alias = "Iron Man", Id = 2 },
                 new Character { FullName = "Peter Parker", Gender = "Male", Alias = "Spiderman", Id = 3 }
               );
@@ -34,7 +31,9 @@ namespace TestWebASP.NET.Data
              );
 
             modelBuilder.Entity<Movie>().HasMany(m => m.Characters).WithMany(c => c.Movies).UsingEntity(j => j.HasData(
-                new { CharactersId = 1, MoviesId = 1 }
+                new { CharactersId = 1, MoviesId = 1 },
+                new { CharactersId = 2, MoviesId = 2 },
+                new { CharactersId = 2, MoviesId = 3 }
                 ));
         }
     }
