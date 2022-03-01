@@ -9,8 +9,8 @@ using TestWebASP.NET.Data;
 namespace TestWebASP.NET.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220301163334_init2")]
-    partial class init2
+    [Migration("20220301164421_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,6 +37,11 @@ namespace TestWebASP.NET.Migrations
                     b.HasData(
                         new
                         {
+                            CharactersId = 1,
+                            MoviesId = 1
+                        },
+                        new
+                        {
                             CharactersId = 2,
                             MoviesId = 2
                         },
@@ -44,11 +49,6 @@ namespace TestWebASP.NET.Migrations
                         {
                             CharactersId = 2,
                             MoviesId = 3
-                        },
-                        new
-                        {
-                            CharactersId = 1,
-                            MoviesId = 1
                         });
                 });
 
