@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using TestWebASP.NET.Data;
+using TestWebASP.NET.DTO.Responses;
 using TestWebASP.NET.Models;
 
 namespace TestWebASP.NET.Controllers
@@ -23,14 +22,15 @@ namespace TestWebASP.NET.Controllers
 
         // GET: api/Movies
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Movie>>> GetMovies()
+        public async Task<IEnumerable<MovieResponse>> GetMovies()
         {
-            return await _context.Movies.ToListAsync();
+            var foundMovies = await _context.Movies.ToListAsync();
+            return foundMovies.Select(MapToMovieResponse);
         }
 
         // GET: api/Movies/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Movie>> GetMovie(int id)
+        public async Task<ActionResult<MovieResponse>> GetMovie(int id)
         {
             var movie = await _context.Movies.FindAsync(id);
 
@@ -39,15 +39,15 @@ namespace TestWebASP.NET.Controllers
                 return NotFound();
             }
 
-            return movie;
+            return MapToMovieResponse(movie);
         }
 
         // PUT: api/Movies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutMovie(int id, Movie movie)
+        [HttpPut("{movieId}")]
+        public async Task<IActionResult> PutMovie(int movieId, Movie movie, int[] characterIds)
         {
-            if (id != movie.Id)
+            if (movieId != movie.Id)
             {
                 return BadRequest();
             }
@@ -60,7 +60,7 @@ namespace TestWebASP.NET.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MovieExists(id))
+                if (!MovieExists(movieId))
                 {
                     return NotFound();
                 }
@@ -103,6 +103,23 @@ namespace TestWebASP.NET.Controllers
         private bool MovieExists(int id)
         {
             return _context.Movies.Any(e => e.Id == id);
+        }
+
+        private static MovieResponse MapToMovieResponse(Movie movie)
+        {
+            return new MovieResponse()
+            {
+                Id = movie.Id,
+                FranchiseId = movie.FranchiseId,
+                MovieTitle = movie.MovieTitle,
+                Genre = movie.Genre,
+                ReleaseYear = movie.ReleaseYear,
+                Director = movie.Director,
+                Picture = movie.Picture,
+                Trailer = movie.Trailer,
+                Characters = movie.Characters
+
+            };
         }
     }
 }
