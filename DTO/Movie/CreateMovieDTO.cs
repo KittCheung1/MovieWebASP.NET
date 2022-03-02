@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using TestWebASP.NET.Models;
 
-namespace TestWebASP.NET.DTO.Responses
+namespace TestWebASP.NET.DTO.Requests
 {
-    public class MovieResponse
+    public class CreateMovieDTO
     {
-        public int Id { get; set; }
-        public int FranchiseId { get; set; }
         public string MovieTitle { get; set; }
         public string Genre { get; set; }
         public int ReleaseYear { get; set; }

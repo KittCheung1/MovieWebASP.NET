@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using TestWebASP.NET.Data;
 using TestWebASP.NET.DTO.Requests;
@@ -10,20 +12,29 @@ using TestWebASP.NET.Models;
 
 namespace TestWebASP.NET.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/characters")]
     [ApiController]
-
+    [Produces(MediaTypeNames.Application.Json)]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ApiConventionType(typeof(DefaultApiConventions))]
 
     public class CharactersController : ControllerBase
     {
 
         private readonly ApplicationDbContext _dbcontext;
+        private readonly IMapper _mapper;
 
-        public CharactersController(ApplicationDbContext dbcontext)
+        public CharactersController(ApplicationDbContext dbcontext, IMapper mapper)
         {
             _dbcontext = dbcontext;
+            _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get a character by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<ReadCharacterDTO>> GetCharacter(int id)
         {
@@ -35,60 +46,74 @@ namespace TestWebASP.NET.Controllers
                 return NotFound();
             }
 
-            return MapToCharacterResponse(foundCharacter);
+            return _mapper.Map<ReadCharacterDTO>(foundCharacter);
         }
 
+        /// <summary>
+        /// Get all Characters
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IEnumerable<ReadCharacterDTO>> GetAllCharacter()
         {
-            var foundCharacters = await _dbcontext.Characters.ToArrayAsync();
-
-            return foundCharacters.Select(MapToCharacterResponse);
+            return _mapper.Map<List<ReadCharacterDTO>>(await _dbcontext.Characters.ToArrayAsync());
         }
 
+
+        /// <summary>
+        /// Add a new character
+        /// </summary>
+        /// <param name="character"></param>
+        /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<ReadCharacterDTO>> CreateCharacter(CreateCharacterDTO createCharacterRequest)
+        public async Task<ActionResult<Character>> CreateCharacter(Character character)
         {
-
-            var character = new Character()
-            {
-                FullName = createCharacterRequest.FullName,
-                Alias = createCharacterRequest.Alias,
-                Gender = createCharacterRequest.Gender,
-                Picture = createCharacterRequest.Picture
-            };
-
             _dbcontext.Characters.Add(character);
 
             await _dbcontext.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetCharacter), new { character.Id }, MapToCharacterResponse(character));
+            return CreatedAtAction(nameof(GetCharacter), new { character.Id }, character);
         }
 
+        /// <summary>
+        /// Update Character by id
+        /// </summary>
+        /// <param name="updateCharacter"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateCharacter(UpdateCharacterDTO updateCharacterRequest, int id)
+        public async Task<ActionResult> UpdateCharacter(UpdateCharacterDTO updateCharacter, int id)
         {
-            var foundUpdateCharacter = await _dbcontext.Characters.FindAsync(id);
+            if (id != updateCharacter.Id)
+            {
+                return BadRequest();
+            }
+            Character dbCharacter = _mapper.Map<Character>(updateCharacter);
+            _dbcontext.Entry(dbCharacter).State = EntityState.Modified;
 
-            if (foundUpdateCharacter == null)
-                return NotFound();
+            try
+            {
+                await _dbcontext.SaveChangesAsync();
 
-            if (updateCharacterRequest.FullName != null)
-                foundUpdateCharacter.FullName = updateCharacterRequest.FullName;
-
-            if (updateCharacterRequest.Alias != null)
-                foundUpdateCharacter.Alias = updateCharacterRequest.Alias;
-
-            if (updateCharacterRequest.Gender != null)
-                foundUpdateCharacter.Gender = updateCharacterRequest.Gender;
-
-            if (updateCharacterRequest.Picture != null)
-                foundUpdateCharacter.Picture = updateCharacterRequest.Picture;
-
-            _dbcontext.Characters.Update(foundUpdateCharacter);
-            await _dbcontext.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CharacterExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
             return NoContent();
         }
 
+        /// <summary>
+        /// Delete a character by id
+        /// </summary>
+        /// <param name="id"></param> 
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCharacter(int id)
         {
@@ -104,16 +129,21 @@ namespace TestWebASP.NET.Controllers
             return NoContent();
         }
 
-        private static ReadCharacterDTO MapToCharacterResponse(Character character)
+        private bool CharacterExists(int id)
         {
-            return new ReadCharacterDTO()
-            {
-                Id = character.Id,
-                FullName = character.FullName,
-                Alias = character.Alias,
-                Gender = character.Gender,
-                Picture = character.Picture
-            };
+            return _dbcontext.Characters.Any(e => e.Id == id);
         }
+
+        //private static ReadCharacterDTO MapToCharacterResponse(Character character)
+        //{
+        //    return new ReadCharacterDTO()
+        //    {
+        //        Id = character.Id,
+        //        FullName = character.FullName,
+        //        Alias = character.Alias,
+        //        Gender = character.Gender,
+        //        Picture = character.Picture
+        //    };
+        //}
     }
 }

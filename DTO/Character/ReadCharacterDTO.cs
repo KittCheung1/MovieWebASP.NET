@@ -1,4 +1,7 @@
-﻿namespace TestWebASP.NET.DTO.Responses
+﻿using System.Collections.Generic;
+using TestWebASP.NET.Models;
+
+namespace TestWebASP.NET.DTO.Responses
 {
     public class ReadCharacterDTO
     {
@@ -7,6 +10,6 @@
         public string Alias { get; init; }
         public string Gender { get; init; }
         public string Picture { get; init; }
-        public int Movie { get; set; }
+        public ICollection<Movie> Movie { get; set; }
     }
 }
