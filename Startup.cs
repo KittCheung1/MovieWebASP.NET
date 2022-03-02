@@ -27,6 +27,7 @@ namespace TestWebASP.NET
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TestWebASP.NET", Version = "v1" });
             });
+            services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<ApplicationDbContext>(context => context.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
 

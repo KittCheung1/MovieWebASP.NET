@@ -30,11 +30,30 @@ namespace TestWebASP.NET.Data
                new Movie { Id = 3, MovieTitle = "Iron Man 2", FranchiseId = 2 }
              );
 
-            modelBuilder.Entity<Movie>().HasMany(m => m.Characters).WithMany(c => c.Movies).UsingEntity(j => j.HasData(
-                new { CharactersId = 1, MoviesId = 1 },
-                new { CharactersId = 2, MoviesId = 2 },
-                new { CharactersId = 2, MoviesId = 3 }
-                ));
+            //modelBuilder.Entity<Movie>()
+            //    .HasMany(m => m.Characters)
+            //    .WithMany(c => c.Movies)
+            //    .UsingEntity<Dictionary<string, object>>("MovieCharacter",
+            //    r => r.HasOne<Character>().WithMany().HasForeignKey("CharacterId"),
+            //    l => l.HasOne<Movie>().WithMany().HasForeignKey("MovieId"),
+            //    j =>
+            //    {
+            //        j.HasKey("CharacterId", "MovieId");
+            //        j.HasData(
+            //             new { CharacterId = 1, MovieId = 1 },
+            //             new { CharacterId = 2, MovieId = 2 },
+            //             new { CharacterId = 2, MovieId = 3 }
+            //     );
+            //    });
+
+            modelBuilder.Entity<Movie>()
+                 .HasMany(m => m.Characters)
+                 .WithMany(c => c.Movies)
+                 .UsingEntity(j => j.HasData(
+                 new { CharactersId = 1, MoviesId = 1 },
+                 new { CharactersId = 2, MoviesId = 2 },
+                 new { CharactersId = 2, MoviesId = 3 }
+     ));
         }
     }
 }

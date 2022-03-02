@@ -9,7 +9,7 @@ namespace TestWebASP.NET.Models
         public string Alias { get; set; }
         public string Gender { get; set; }
         public string Picture { get; set; }
-
+        public int MovieId { get; set; }
         public ICollection<Movie> Movies { get; set; }
     }
 }

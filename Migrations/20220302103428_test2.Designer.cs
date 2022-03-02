@@ -9,8 +9,8 @@ using TestWebASP.NET.Data;
 namespace TestWebASP.NET.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220301164421_init")]
-    partial class init
+    [Migration("20220302103428_test2")]
+    partial class test2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -68,6 +68,9 @@ namespace TestWebASP.NET.Migrations
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("MovieId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Picture")
                         .HasColumnType("nvarchar(max)");
 
@@ -81,21 +84,24 @@ namespace TestWebASP.NET.Migrations
                             Id = 1,
                             Alias = "Geralt of Rivia",
                             FullName = "Geralt",
-                            Gender = "Male"
+                            Gender = "Male",
+                            MovieId = 0
                         },
                         new
                         {
                             Id = 2,
                             Alias = "Iron Man",
                             FullName = "Tony Stark",
-                            Gender = "Male"
+                            Gender = "Male",
+                            MovieId = 0
                         },
                         new
                         {
                             Id = 3,
                             Alias = "Spiderman",
                             FullName = "Peter Parker",
-                            Gender = "Male"
+                            Gender = "Male",
+                            MovieId = 0
                         });
                 });
 

@@ -25,7 +25,7 @@ namespace TestWebASP.NET.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<CharacterResponse>> GetCharacter(int id)
+        public async Task<ActionResult<ReadCharacterDTO>> GetCharacter(int id)
         {
             var foundCharacter = await _dbcontext.Characters.FindAsync(id);
 
@@ -39,7 +39,7 @@ namespace TestWebASP.NET.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<CharacterResponse>> GetAllCharacter()
+        public async Task<IEnumerable<ReadCharacterDTO>> GetAllCharacter()
         {
             var foundCharacters = await _dbcontext.Characters.ToArrayAsync();
 
@@ -47,7 +47,7 @@ namespace TestWebASP.NET.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<CharacterResponse>> CreateCharacter(CreateCharacterRequest createCharacterRequest)
+        public async Task<ActionResult<ReadCharacterDTO>> CreateCharacter(CreateCharacterDTO createCharacterRequest)
         {
 
             var character = new Character()
@@ -65,7 +65,7 @@ namespace TestWebASP.NET.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateCharacter(UpdateCharacterRequest updateCharacterRequest, int id)
+        public async Task<ActionResult> UpdateCharacter(UpdateCharacterDTO updateCharacterRequest, int id)
         {
             var foundUpdateCharacter = await _dbcontext.Characters.FindAsync(id);
 
@@ -104,9 +104,9 @@ namespace TestWebASP.NET.Controllers
             return NoContent();
         }
 
-        private static CharacterResponse MapToCharacterResponse(Character character)
+        private static ReadCharacterDTO MapToCharacterResponse(Character character)
         {
-            return new CharacterResponse()
+            return new ReadCharacterDTO()
             {
                 Id = character.Id,
                 FullName = character.FullName,
