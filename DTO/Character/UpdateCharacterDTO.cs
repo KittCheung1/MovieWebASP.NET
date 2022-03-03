@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using TestWebASP.NET.Models;
-
-namespace TestWebASP.NET.DTO.Requests
+﻿namespace TestWebASP.NET.DTO.Requests
 {
     public class UpdateCharacterDTO
     {
@@ -10,6 +7,6 @@ namespace TestWebASP.NET.DTO.Requests
         public string Alias { get; set; }
         public string Gender { get; set; }
         public string Picture { get; set; }
-        public ICollection<Movie> Movie { get; set; }
+        //public ICollection<Movie> Movie { get; set; }
     }
 }

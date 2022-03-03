@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace TestWebASP.NET.DTO.Responses
+﻿namespace TestWebASP.NET.DTO.Responses
 {
     public class ReadMovieDTO
     {
@@ -12,6 +10,6 @@ namespace TestWebASP.NET.DTO.Responses
         public string Director { get; set; }
         public string Picture { get; set; }
         public string Trailer { get; set; }
-        public IEnumerable<ReadCharacterDTO> Characters { get; init; }
+        //public IEnumerable<ReadCharacterDTO> Characters { get; init; }
     }
 }

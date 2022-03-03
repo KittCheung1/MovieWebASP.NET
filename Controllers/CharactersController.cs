@@ -54,9 +54,10 @@ namespace TestWebASP.NET.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IEnumerable<ReadCharacterDTO>> GetAllCharacter()
+        public async Task<IEnumerable<ReadCharacterDTO>> GetAllCharacters()
         {
-            return _mapper.Map<List<ReadCharacterDTO>>(await _dbcontext.Characters.ToArrayAsync());
+            return _mapper.Map<List<ReadCharacterDTO>>(await _dbcontext.Characters
+                .Include(c => c.Movies).ToListAsync());
         }
 
 

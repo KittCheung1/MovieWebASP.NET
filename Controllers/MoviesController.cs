@@ -98,12 +98,13 @@ namespace TestWebASP.NET.Controllers
         /// <param name="movie"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<Movie>> CreateMovie(Movie movie)
+        public async Task<ActionResult<Movie>> CreateMovie(CreateMovieDTO createMovie)
         {
-            _dbcontext.Movies.Add(movie);
+            Movie dbMovie = _mapper.Map<Movie>(createMovie);
+            _dbcontext.Movies.Add(dbMovie);
             await _dbcontext.SaveChangesAsync();
 
-            return CreatedAtAction("GetMovie", new { movie.Id }, movie);
+            return CreatedAtAction("GetMovie", new { dbMovie.Id }, _mapper.Map<CreateMovieDTO>(dbMovie));
         }
 
         /// <summary>

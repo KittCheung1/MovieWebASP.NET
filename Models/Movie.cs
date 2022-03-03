@@ -17,6 +17,7 @@ namespace TestWebASP.NET.Models
         public string Director { get; set; }
         public string Picture { get; set; }
         public string Trailer { get; set; }
+        public Franchise Franchise { get; set; }
         public ICollection<Character> Characters { get; set; }
     }
 }

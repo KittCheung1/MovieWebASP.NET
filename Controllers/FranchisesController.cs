@@ -95,12 +95,14 @@ namespace TestWebASP.NET.Controllers
         /// <param name="franchise"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<Franchise>> CreateFranchise(Franchise franchise)
+        public async Task<ActionResult<Franchise>> CreateFranchise(CreateFranchiseDTO createFranchise)
         {
+            Franchise franchise = _mapper.Map<Franchise>(createFranchise);
             _dbcontext.Franchises.Add(franchise);
-
             await _dbcontext.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetFranchise), new { franchise.Id }, franchise);
+
+
+            return CreatedAtAction(nameof(GetFranchise), new { franchise.Id }, _mapper.Map<CreateFranchiseDTO>(franchise));
         }
 
         /// <summary>
