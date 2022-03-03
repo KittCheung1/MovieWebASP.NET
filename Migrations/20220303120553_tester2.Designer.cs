@@ -9,8 +9,8 @@ using TestWebASP.NET.Data;
 namespace TestWebASP.NET.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220302141044_init")]
-    partial class init
+    [Migration("20220303120553_tester2")]
+    partial class tester2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -82,23 +82,26 @@ namespace TestWebASP.NET.Migrations
                         new
                         {
                             Id = 1,
-                            Alias = "Geralt of Rivia",
-                            FullName = "Geralt",
-                            Gender = "Male"
+                            Alias = "Baba Yaga",
+                            FullName = "John Wick",
+                            Gender = "Male",
+                            Picture = "https://en.wikipedia.org/wiki/John_Wick_(character)#/media/File:John_Wick_Keanu.jpeg"
                         },
                         new
                         {
                             Id = 2,
                             Alias = "Iron Man",
                             FullName = "Tony Stark",
-                            Gender = "Male"
+                            Gender = "Male",
+                            Picture = "https://ironman.fandom.com/wiki/Marvel%27s_Iron_Man?file=P170620_v_v8_ba.jpg"
                         },
                         new
                         {
                             Id = 3,
                             Alias = "Spiderman",
                             FullName = "Peter Parker",
-                            Gender = "Male"
+                            Gender = "Male",
+                            Picture = "https://ironman.fandom.com/wiki/Marvel_Studios:_Iron_Man_2?file=P3546118_v_v8_af.jpg"
                         });
                 });
 
@@ -127,11 +130,12 @@ namespace TestWebASP.NET.Migrations
                         {
                             Id = 1,
                             Description = "Scary movie",
-                            Name = "Horror"
+                            Name = "Scare the **** out of you-Movies"
                         },
                         new
                         {
                             Id = 2,
+                            Description = "Superheros fighting to save the world",
                             Name = "Marvel"
                         });
                 });
@@ -177,23 +181,35 @@ namespace TestWebASP.NET.Migrations
                         new
                         {
                             Id = 1,
+                            Director = "Chad Stahelski",
                             FranchiseId = 1,
-                            MovieTitle = "Witcher",
-                            ReleaseYear = 0
+                            Genre = "Action, Crime, Thriller",
+                            MovieTitle = "John Wick",
+                            Picture = "https://witcher.fandom.com/wiki/The_Witcher_(TV_series)?file=Netflix+poster+s1.jpg",
+                            ReleaseYear = 2014,
+                            Trailer = "https://www.youtube.com/watch?v=2AUmvWm5ZDQ&ab_channel=LionsgateMovies"
                         },
                         new
                         {
                             Id = 2,
+                            Director = "Jon Favreau",
                             FranchiseId = 2,
+                            Genre = "Action, Adventure, Sci-Fi",
                             MovieTitle = "Iron Man",
-                            ReleaseYear = 0
+                            Picture = "https://upload.wikimedia.org/wikipedia/en/0/02/Iron_Man_%282008_film%29_poster.jpg",
+                            ReleaseYear = 2008,
+                            Trailer = "https://www.youtube.com/watch?v=8hYlB38asDY&ab_channel=TheMovieChanneI"
                         },
                         new
                         {
                             Id = 3,
+                            Director = "Jon Favreau",
                             FranchiseId = 2,
+                            Genre = "Action, Adventure, Sci-Fi",
                             MovieTitle = "Iron Man 2",
-                            ReleaseYear = 0
+                            Picture = "https://en.wikipedia.org/wiki/Iron_Man_2#/media/File:Iron_Man_2_poster.jpg",
+                            ReleaseYear = 2010,
+                            Trailer = "https://www.youtube.com/watch?v=BoohRoVA9WQ&ab_channel=Movieclips"
                         });
                 });
 
@@ -214,11 +230,13 @@ namespace TestWebASP.NET.Migrations
 
             modelBuilder.Entity("TestWebASP.NET.Models.Movie", b =>
                 {
-                    b.HasOne("TestWebASP.NET.Models.Franchise", null)
+                    b.HasOne("TestWebASP.NET.Models.Franchise", "Franchise")
                         .WithMany("Movies")
                         .HasForeignKey("FranchiseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Franchise");
                 });
 
             modelBuilder.Entity("TestWebASP.NET.Models.Franchise", b =>

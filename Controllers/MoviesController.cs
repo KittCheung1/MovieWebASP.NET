@@ -56,15 +56,33 @@ namespace TestWebASP.NET.Controllers
         }
 
         /// <summary>
+        /// Get all characters in a movie by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("characters/{id}")]
+        public async Task<ActionResult<List<ReadCharacterDTO>>> GetAllCharactersInMovie(int id)
+        {
+            var dbMovie = await _dbcontext.Movies.Include(m => m.Characters).FirstOrDefaultAsync(m => m.Id == id);
+
+            if (dbMovie == null)
+            {
+                return NotFound();
+            }
+
+            return _mapper.Map<List<ReadCharacterDTO>>(dbMovie.Characters.ToList());
+        }
+
+        /// <summary>
         /// Update a movie by id
         /// </summary>
-        /// <param name="movieId"></param>
+        /// <param name="id"></param>
         /// <param name="updateMovie"></param>
         /// <returns></returns>
-        [HttpPut("{movieId}")]
-        public async Task<IActionResult> UpdateMovie(int movieId, UpdateMovieDTO updateMovie)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateMovie(int id, UpdateMovieDTO updateMovie)
         {
-            if (movieId != updateMovie.Id)
+            if (id != updateMovie.Id)
             {
                 return BadRequest();
             }
@@ -79,7 +97,7 @@ namespace TestWebASP.NET.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MovieExists(movieId))
+                if (!MovieExists(id))
                 {
                     return NotFound();
                 }
@@ -93,9 +111,38 @@ namespace TestWebASP.NET.Controllers
         }
 
         /// <summary>
+        /// Update characters to a movie
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="characters"></param>
+        /// <returns></returns>
+
+        [HttpPut("characters/{id}")]
+        public async Task<ActionResult> AddCharactersToMovie(int id, [FromBody] List<int> characters)
+        {
+            var dbMovie = await _dbcontext.Movies.Include(m => m.Characters).FirstOrDefaultAsync(m => m.Id == id);
+            if (dbMovie == null)
+            {
+                return NotFound();
+            }
+            var characterInList = new List<Character>();
+            foreach (var character in characters)
+            {
+                var c = await _dbcontext.Characters.FirstOrDefaultAsync(c => c.Id == character);
+                if (c != null)
+                {
+                    dbMovie.Characters.Add(c);
+                }
+            }
+            await _dbcontext.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        /// <summary>
         /// Create a movie
         /// </summary>
-        /// <param name="movie"></param>
+        /// <param name="createMovie"></param>
         /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<Movie>> CreateMovie(CreateMovieDTO createMovie)
@@ -106,6 +153,8 @@ namespace TestWebASP.NET.Controllers
 
             return CreatedAtAction("GetMovie", new { dbMovie.Id }, _mapper.Map<CreateMovieDTO>(dbMovie));
         }
+
+
 
         /// <summary>
         /// Delete a movie by id

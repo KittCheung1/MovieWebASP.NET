@@ -56,23 +56,23 @@ namespace TestWebASP.NET.Controllers
         [HttpGet]
         public async Task<IEnumerable<ReadCharacterDTO>> GetAllCharacters()
         {
-            return _mapper.Map<List<ReadCharacterDTO>>(await _dbcontext.Characters
-                .Include(c => c.Movies).ToListAsync());
+            return _mapper.Map<List<ReadCharacterDTO>>(await _dbcontext.Characters.ToArrayAsync());
         }
 
 
         /// <summary>
         /// Add a new character
         /// </summary>
-        /// <param name="character"></param>
+        /// <param name="createCharacter"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<Character>> CreateCharacter(Character character)
+        public async Task<ActionResult<CreateCharacterDTO>> CreateCharacter(CreateCharacterDTO createCharacter)
         {
-            _dbcontext.Characters.Add(character);
-
+            Character dbCharacter = _mapper.Map<Character>(createCharacter);
+            _dbcontext.Characters.Add(dbCharacter);
             await _dbcontext.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetCharacter), new { character.Id }, character);
+
+            return CreatedAtAction(nameof(GetCharacter), new { dbCharacter.Id }, _mapper.Map<CreateCharacterDTO>(dbCharacter));
         }
 
         /// <summary>
@@ -134,17 +134,5 @@ namespace TestWebASP.NET.Controllers
         {
             return _dbcontext.Characters.Any(e => e.Id == id);
         }
-
-        //private static ReadCharacterDTO MapToCharacterResponse(Character character)
-        //{
-        //    return new ReadCharacterDTO()
-        //    {
-        //        Id = character.Id,
-        //        FullName = character.FullName,
-        //        Alias = character.Alias,
-        //        Gender = character.Gender,
-        //        Picture = character.Picture
-        //    };
-        //}
     }
 }

@@ -2,7 +2,7 @@
 
 namespace TestWebASP.NET.Migrations
 {
-    public partial class test2 : Migration
+    public partial class tester : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,11 +12,10 @@ namespace TestWebASP.NET.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FullName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Alias = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Picture = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MovieId = table.Column<int>(type: "int", nullable: false)
+                    Gender = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Picture = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -29,8 +28,8 @@ namespace TestWebASP.NET.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -44,10 +43,10 @@ namespace TestWebASP.NET.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FranchiseId = table.Column<int>(type: "int", nullable: false),
-                    MovieTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Genre = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MovieTitle = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Genre = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     ReleaseYear = table.Column<int>(type: "int", nullable: false),
-                    Director = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Director = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Picture = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Trailer = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -88,12 +87,12 @@ namespace TestWebASP.NET.Migrations
 
             migrationBuilder.InsertData(
                 table: "Characters",
-                columns: new[] { "Id", "Alias", "FullName", "Gender", "MovieId", "Picture" },
+                columns: new[] { "Id", "Alias", "FullName", "Gender", "Picture" },
                 values: new object[,]
                 {
-                    { 1, "Geralt of Rivia", "Geralt", "Male", 0, null },
-                    { 2, "Iron Man", "Tony Stark", "Male", 0, null },
-                    { 3, "Spiderman", "Peter Parker", "Male", 0, null }
+                    { 1, "Baba Yaga", "John Wick", "Male", "https://en.wikipedia.org/wiki/John_Wick_(character)#/media/File:John_Wick_Keanu.jpeg" },
+                    { 2, "Iron Man", "Tony Stark", "Male", "https://ironman.fandom.com/wiki/Marvel%27s_Iron_Man?file=P170620_v_v8_ba.jpg" },
+                    { 3, "Spiderman", "Peter Parker", "Male", "https://ironman.fandom.com/wiki/Marvel_Studios:_Iron_Man_2?file=P3546118_v_v8_af.jpg" }
                 });
 
             migrationBuilder.InsertData(
@@ -101,24 +100,24 @@ namespace TestWebASP.NET.Migrations
                 columns: new[] { "Id", "Description", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Scary movie", "Horror" },
-                    { 2, null, "Marvel" }
+                    { 1, "Scary movie", "Scare the **** out of you-Movies" },
+                    { 2, "Superheros fighting to save the world", "Marvel" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Movies",
                 columns: new[] { "Id", "Director", "FranchiseId", "Genre", "MovieTitle", "Picture", "ReleaseYear", "Trailer" },
-                values: new object[] { 1, null, 1, null, "Witcher", null, 0, null });
+                values: new object[] { 1, "Chad Stahelski", 1, "Action, Crime, Thriller", "John Wick", "https://witcher.fandom.com/wiki/The_Witcher_(TV_series)?file=Netflix+poster+s1.jpg", 2014, "https://www.youtube.com/watch?v=2AUmvWm5ZDQ&ab_channel=LionsgateMovies" });
 
             migrationBuilder.InsertData(
                 table: "Movies",
                 columns: new[] { "Id", "Director", "FranchiseId", "Genre", "MovieTitle", "Picture", "ReleaseYear", "Trailer" },
-                values: new object[] { 2, null, 2, null, "Iron Man", null, 0, null });
+                values: new object[] { 2, "Jon Favreau", 2, "Action, Adventure, Sci-Fi", "Iron Man", "https://upload.wikimedia.org/wikipedia/en/0/02/Iron_Man_%282008_film%29_poster.jpg", 2008, "https://www.youtube.com/watch?v=8hYlB38asDY&ab_channel=TheMovieChanneI" });
 
             migrationBuilder.InsertData(
                 table: "Movies",
                 columns: new[] { "Id", "Director", "FranchiseId", "Genre", "MovieTitle", "Picture", "ReleaseYear", "Trailer" },
-                values: new object[] { 3, null, 2, null, "Iron Man 2", null, 0, null });
+                values: new object[] { 3, "Jon Favreau", 2, "Action, Adventure, Sci-Fi", "Iron Man 2", "https://en.wikipedia.org/wiki/Iron_Man_2#/media/File:Iron_Man_2_poster.jpg", 2010, "https://www.youtube.com/watch?v=BoohRoVA9WQ&ab_channel=Movieclips" });
 
             migrationBuilder.InsertData(
                 table: "CharacterMovie",

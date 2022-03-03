@@ -7,6 +7,7 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using TestWebASP.NET.Data;
 using TestWebASP.NET.DTO.Franchise;
+using TestWebASP.NET.DTO.Responses;
 using TestWebASP.NET.Models;
 
 namespace TestWebASP.NET.Controllers
@@ -56,6 +57,43 @@ namespace TestWebASP.NET.Controllers
         }
 
         /// <summary>
+        /// Get all movies from a franchise id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("movies/{id}")]
+        public async Task<ActionResult<List<ReadMovieDTO>>> GetAllMoviesInFranchise(int id)
+        {
+            var dbFranchise = await _dbcontext.Franchises.Include(f => f.Movies).FirstOrDefaultAsync(f => f.Id == id);
+
+            if (dbFranchise == null)
+            {
+                return NotFound();
+            }
+
+            return _mapper.Map<List<ReadMovieDTO>>(dbFranchise.Movies.ToList());
+        }
+
+        /// <summary>
+        /// Get all characters in franchise by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        //[HttpGet("characters/{id}")]
+        //public async Task<ActionResult<List<ReadCharacterDTO>>> GetAllCharactersInFranchise(int id, Movie movieId)
+        //{
+        //    var dbFranchise = await _dbcontext.Franchises.Include(f => f.Movies).FirstOrDefaultAsync(f => f.Id == id);
+        //    var dbMovie = await _dbcontext.Movies.Include(m=> m.Characters).FirstOrDefaultAsync(m => m.Id == movieId);
+
+        //    if (dbFranchise == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return _mapper.Map<List<ReadMovieDTO>>(dbFranchise.Movies.ToList());
+        //}
+
+        /// <summary>
         /// Update a franchise by id
         /// </summary>
         /// <param name="id"></param>
@@ -90,19 +128,39 @@ namespace TestWebASP.NET.Controllers
         }
 
         /// <summary>
+        /// Add / Update a movie in Franchise
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="movieId"></param>
+        /// <returns></returns>
+        [HttpPut("movie/{id}")]
+        public async Task<IActionResult> UpdateMovieInFranchise(int id, [FromBody] int movieId)
+        {
+            var dbFranchise = await _dbcontext.Franchises.Include(f => f.Movies).FirstOrDefaultAsync(f => f.Id == id);
+            var movie = await _dbcontext.Movies.FindAsync(movieId);
+            if (dbFranchise == null)
+            {
+                return NotFound();
+            }
+            dbFranchise.Movies.Add(movie);
+            await _dbcontext.SaveChangesAsync();
+            return Ok();
+        }
+
+        /// <summary>
         /// Create a franchise
         /// </summary>
-        /// <param name="franchise"></param>
+        /// <param name="createFranchise"></param>
         /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<Franchise>> CreateFranchise(CreateFranchiseDTO createFranchise)
         {
-            Franchise franchise = _mapper.Map<Franchise>(createFranchise);
-            _dbcontext.Franchises.Add(franchise);
+            Franchise dbFranchise = _mapper.Map<Franchise>(createFranchise);
+            _dbcontext.Franchises.Add(dbFranchise);
             await _dbcontext.SaveChangesAsync();
 
 
-            return CreatedAtAction(nameof(GetFranchise), new { franchise.Id }, _mapper.Map<CreateFranchiseDTO>(franchise));
+            return CreatedAtAction(nameof(GetFranchise), new { dbFranchise.Id }, _mapper.Map<CreateFranchiseDTO>(dbFranchise));
         }
 
         /// <summary>

@@ -13,6 +13,6 @@ namespace TestWebASP.NET.Models
 
         [MaxLength(300)]
         public string Description { get; set; }
-        public ICollection<Movie> Movies { get; set; }
+        public ICollection<Movie> Movies { get; set; } = new HashSet<Movie>();
     }
 }
