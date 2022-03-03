@@ -42,7 +42,7 @@ namespace TestWebASP.NET.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FranchiseId = table.Column<int>(type: "int", nullable: false),
+                    FranchiseId = table.Column<int>(type: "int", nullable: true),
                     MovieTitle = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Genre = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     ReleaseYear = table.Column<int>(type: "int", nullable: false),
@@ -58,7 +58,7 @@ namespace TestWebASP.NET.Migrations
                         column: x => x.FranchiseId,
                         principalTable: "Franchises",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -117,7 +117,7 @@ namespace TestWebASP.NET.Migrations
             migrationBuilder.InsertData(
                 table: "Movies",
                 columns: new[] { "Id", "Director", "FranchiseId", "Genre", "MovieTitle", "Picture", "ReleaseYear", "Trailer" },
-                values: new object[] { 3, "Jon Favreau", 2, "Action, Adventure, Sci-Fi", "Iron Man 2", "https://en.wikipedia.org/wiki/Iron_Man_2#/media/File:Iron_Man_2_poster.jpg", 2010, "https://www.youtube.com/watch?v=BoohRoVA9WQ&ab_channel=Movieclips" });
+                values: new object[] { 3, "Sam Raimi", 2, "Action, Adventure, Sci-Fi", "Spiderman", "https://en.wikipedia.org/wiki/Spider-Man_(2002_film)#/media/File:Spider-Man2002Poster.jpg", 2002, "https://www.youtube.com/watch?v=_yhFofFZGcc&ab_channel=MovieclipsClassicTrailers" });
 
             migrationBuilder.InsertData(
                 table: "CharacterMovie",
@@ -132,7 +132,7 @@ namespace TestWebASP.NET.Migrations
             migrationBuilder.InsertData(
                 table: "CharacterMovie",
                 columns: new[] { "CharactersId", "MoviesId" },
-                values: new object[] { 2, 3 });
+                values: new object[] { 3, 3 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_CharacterMovie_MoviesId",

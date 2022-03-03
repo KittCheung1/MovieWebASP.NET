@@ -13,6 +13,12 @@ namespace TestWebASP.NET.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Movie>()
+                .HasOne(m => m.Franchise)
+                .WithMany(f => f.Movies)
+                .OnDelete(DeleteBehavior.SetNull)
+                .IsRequired(false);
+
             modelBuilder.Entity<Character>().HasData(
                 new Character
                 {
@@ -71,13 +77,13 @@ namespace TestWebASP.NET.Data
                new Movie
                {
                    Id = 3,
-                   MovieTitle = "Iron Man 2",
+                   MovieTitle = "Spiderman",
                    FranchiseId = 2,
-                   Director = "Jon Favreau",
+                   Director = "Sam Raimi",
                    Genre = "Action, Adventure, Sci-Fi",
-                   ReleaseYear = 2010,
-                   Picture = "https://en.wikipedia.org/wiki/Iron_Man_2#/media/File:Iron_Man_2_poster.jpg",
-                   Trailer = "https://www.youtube.com/watch?v=BoohRoVA9WQ&ab_channel=Movieclips"
+                   ReleaseYear = 2002,
+                   Picture = "https://en.wikipedia.org/wiki/Spider-Man_(2002_film)#/media/File:Spider-Man2002Poster.jpg",
+                   Trailer = "https://www.youtube.com/watch?v=_yhFofFZGcc&ab_channel=MovieclipsClassicTrailers"
                }
              );
 
@@ -103,7 +109,7 @@ namespace TestWebASP.NET.Data
                  .UsingEntity(j => j.HasData(
                  new { CharactersId = 1, MoviesId = 1 },
                  new { CharactersId = 2, MoviesId = 2 },
-                 new { CharactersId = 2, MoviesId = 3 }
+                 new { CharactersId = 3, MoviesId = 3 }
      ));
         }
     }

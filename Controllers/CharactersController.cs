@@ -1,14 +1,10 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using TestWebASP.NET.Data;
 using TestWebASP.NET.DTO.Requests;
 using TestWebASP.NET.DTO.Responses;
-using TestWebASP.NET.Models;
+using TestWebASP.NET.Services;
 
 namespace TestWebASP.NET.Controllers
 {
@@ -21,13 +17,11 @@ namespace TestWebASP.NET.Controllers
     public class CharactersController : ControllerBase
     {
 
-        private readonly ApplicationDbContext _dbcontext;
-        private readonly IMapper _mapper;
+        private readonly ICharacterService _characterService;
 
-        public CharactersController(ApplicationDbContext dbcontext, IMapper mapper)
+        public CharactersController(ICharacterService characterService)
         {
-            _dbcontext = dbcontext;
-            _mapper = mapper;
+            _characterService = characterService;
         }
 
         /// <summary>
@@ -38,15 +32,14 @@ namespace TestWebASP.NET.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ReadCharacterDTO>> GetCharacter(int id)
         {
-            var foundCharacter = await _dbcontext.Characters.FindAsync(id);
-
+            var foundCharacter = await _characterService.GetCharacterAsync(id);
 
             if (foundCharacter == null)
             {
                 return NotFound();
             }
 
-            return _mapper.Map<ReadCharacterDTO>(foundCharacter);
+            return foundCharacter;
         }
 
         /// <summary>
@@ -54,9 +47,9 @@ namespace TestWebASP.NET.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IEnumerable<ReadCharacterDTO>> GetAllCharacters()
+        public Task<IEnumerable<ReadCharacterDTO>> GetAllCharacters()
         {
-            return _mapper.Map<List<ReadCharacterDTO>>(await _dbcontext.Characters.ToArrayAsync());
+            return _characterService.GetAllCharactersAsync();
         }
 
 
@@ -68,11 +61,9 @@ namespace TestWebASP.NET.Controllers
         [HttpPost]
         public async Task<ActionResult<CreateCharacterDTO>> CreateCharacter(CreateCharacterDTO createCharacter)
         {
-            Character dbCharacter = _mapper.Map<Character>(createCharacter);
-            _dbcontext.Characters.Add(dbCharacter);
-            await _dbcontext.SaveChangesAsync();
+            var character = await _characterService.CreateCharacterAsync(createCharacter);
 
-            return CreatedAtAction(nameof(GetCharacter), new { dbCharacter.Id }, _mapper.Map<CreateCharacterDTO>(dbCharacter));
+            return CreatedAtAction(nameof(GetCharacter), new { character.Id }, character);
         }
 
         /// <summary>
@@ -84,28 +75,11 @@ namespace TestWebASP.NET.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateCharacter(UpdateCharacterDTO updateCharacter, int id)
         {
-            if (id != updateCharacter.Id)
-            {
-                return BadRequest();
-            }
-            Character dbCharacter = _mapper.Map<Character>(updateCharacter);
-            _dbcontext.Entry(dbCharacter).State = EntityState.Modified;
+            bool characterExists = await _characterService.UpdateCharacterAsync(updateCharacter, id);
 
-            try
+            if (!characterExists)
             {
-                await _dbcontext.SaveChangesAsync();
-
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CharacterExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
             return NoContent();
         }
@@ -118,21 +92,13 @@ namespace TestWebASP.NET.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCharacter(int id)
         {
-            var foundCharacterToDelete = await _dbcontext.Characters.FindAsync(id);
-            if (foundCharacterToDelete == null)
+            bool characterExists = await _characterService.DeleteCharacterAsync(id);
+
+            if (!characterExists)
             {
                 return NotFound();
             }
-
-            _dbcontext.Characters.Remove(foundCharacterToDelete);
-            await _dbcontext.SaveChangesAsync();
-
             return NoContent();
-        }
-
-        private bool CharacterExists(int id)
-        {
-            return _dbcontext.Characters.Any(e => e.Id == id);
         }
     }
 }

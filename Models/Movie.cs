@@ -6,7 +6,8 @@ namespace TestWebASP.NET.Models
     public class Movie
     {
         public int Id { get; set; }
-        public int FranchiseId { get; set; }
+
+        public int? FranchiseId { get; set; }
 
         [MaxLength(50)]
         public string MovieTitle { get; set; }
@@ -17,7 +18,7 @@ namespace TestWebASP.NET.Models
         public string Director { get; set; }
         public string Picture { get; set; }
         public string Trailer { get; set; }
-        //public Franchise Franchise { get; set; }
-        public ICollection<Character> Characters { get; set; }
+        public Franchise Franchise { get; set; }
+        public ICollection<Character> Characters { get; set; } = new HashSet<Character>();
     }
 }
