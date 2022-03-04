@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "TestWebASP.NET": {
+    "MovieWebASP.NET": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,
