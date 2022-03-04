@@ -52,7 +52,6 @@ namespace TestWebASP.NET.Controllers
             return _characterService.GetAllCharactersAsync();
         }
 
-
         /// <summary>
         /// Add a new character
         /// </summary>

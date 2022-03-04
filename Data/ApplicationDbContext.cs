@@ -47,7 +47,7 @@ namespace TestWebASP.NET.Data
               );
 
             modelBuilder.Entity<Franchise>().HasData(
-               new Franchise { Id = 1, Name = "Scare the **** out of you-Movies", Description = "Scary movie" },
+               new Franchise { Id = 1, Name = "Disney", Description = "Cartoon, animated movies" },
                new Franchise { Id = 2, Name = "Marvel", Description = "Superheros fighting to save the world" }
              );
 

@@ -7,6 +7,5 @@
         public string Alias { get; init; }
         public string Gender { get; init; }
         public string Picture { get; init; }
-        //public ICollection<Movie> Movie { get; set; }
     }
 }

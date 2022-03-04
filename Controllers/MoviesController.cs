@@ -81,12 +81,11 @@ namespace TestWebASP.NET.Controllers
         }
 
         /// <summary>
-        /// Update characters to a movie
+        /// Update characters to a movie by id
         /// </summary>
         /// <param name="id"></param>
         /// <param name="characterIds"></param>
         /// <returns></returns>
-
         [HttpPut("characters/{id}")]
         public async Task<ActionResult> UpdateCharactersToMovie(int id, [FromBody] List<int> characterIds)
         {
@@ -105,10 +104,7 @@ namespace TestWebASP.NET.Controllers
             var movie = await _movieService.CreateMovieAsync(createMovie);
 
             return CreatedAtAction(nameof(GetMovie), new { movie.Id }, movie);
-
         }
-
-
 
         /// <summary>
         /// Delete a movie by id

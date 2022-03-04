@@ -14,7 +14,7 @@ namespace TestWebASP.NET.Models
         public string Alias { get; set; }
         [MaxLength(50)]
         public string Gender { get; set; }
-        [MaxLength(100)]
+        [MaxLength(200)]
         public string Picture { get; set; }
         public ICollection<Movie> Movies { get; set; }
     }

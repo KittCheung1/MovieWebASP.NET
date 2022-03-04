@@ -93,7 +93,7 @@ namespace TestWebASP.NET.Controllers
         }
 
         /// <summary>
-        /// Add / Update a movie in Franchise
+        /// Put movies in Franchise by id
         /// </summary>
         /// <param name="id"></param>
         /// <param name="movieIds"></param>
