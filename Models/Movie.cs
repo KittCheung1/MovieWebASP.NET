@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace TestWebASP.NET.Models
+namespace MovieWebASP.NET.Models
 {
     public class Movie
     {

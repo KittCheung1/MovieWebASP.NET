@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using MovieWebASP.NET.Data;
+using MovieWebASP.NET.DTO.Requests;
+using MovieWebASP.NET.DTO.Responses;
+using MovieWebASP.NET.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TestWebASP.NET.Data;
-using TestWebASP.NET.DTO.Requests;
-using TestWebASP.NET.DTO.Responses;
-using TestWebASP.NET.Models;
 
-namespace TestWebASP.NET.Services
+namespace MovieWebASP.NET.Services
 {
     public class MovieService : IMovieService
     {

@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using TestWebASP.NET.DTO.Requests;
-using TestWebASP.NET.DTO.Responses;
-using TestWebASP.NET.Models;
+using MovieWebASP.NET.DTO.Requests;
+using MovieWebASP.NET.DTO.Responses;
+using MovieWebASP.NET.Models;
 
-namespace TestWebASP.NET.Profiles
+namespace MovieWebASP.NET.Profiles
 {
     public class MovieProfile : Profile
     {

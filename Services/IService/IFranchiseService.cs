@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using MovieWebASP.NET.DTO.Franchise;
+using MovieWebASP.NET.DTO.Responses;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using TestWebASP.NET.DTO.Franchise;
-using TestWebASP.NET.DTO.Responses;
 
-namespace TestWebASP.NET.Services
+namespace MovieWebASP.NET.Services
 {
     public interface IFranchiseService
     {

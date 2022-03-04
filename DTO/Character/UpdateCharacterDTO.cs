@@ -1,4 +1,4 @@
-﻿namespace TestWebASP.NET.DTO.Requests
+﻿namespace MovieWebASP.NET.DTO.Requests
 {
     public class UpdateCharacterDTO
     {

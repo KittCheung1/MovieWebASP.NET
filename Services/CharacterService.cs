@@ -2,12 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TestWebASP.NET.Data;
-using TestWebASP.NET.DTO.Requests;
-using TestWebASP.NET.DTO.Responses;
-using TestWebASP.NET.Models;
+using MovieWebASP.NET.Data;
+using MovieWebASP.NET.DTO.Requests;
+using MovieWebASP.NET.DTO.Responses;
+using MovieWebASP.NET.Models;
 
-namespace TestWebASP.NET.Services
+namespace MovieWebASP.NET.Services
 {
     public class CharacterService : ICharacterService
     {

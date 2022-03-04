@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using TestWebASP.NET.DTO.Franchise;
-using TestWebASP.NET.Models;
+using MovieWebASP.NET.DTO.Franchise;
+using MovieWebASP.NET.Models;
 
-namespace TestWebASP.NET.Profiles
+namespace MovieWebASP.NET.Profiles
 {
     public class FranchiseProfile : Profile
     {

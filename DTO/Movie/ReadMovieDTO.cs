@@ -1,4 +1,4 @@
-﻿namespace TestWebASP.NET.DTO.Responses
+﻿namespace MovieWebASP.NET.DTO.Responses
 {
     public class ReadMovieDTO
     {

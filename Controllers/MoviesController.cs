@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MovieWebASP.NET.DTO.Requests;
+using MovieWebASP.NET.DTO.Responses;
+using MovieWebASP.NET.Models;
+using MovieWebASP.NET.Services;
 using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using TestWebASP.NET.DTO.Requests;
-using TestWebASP.NET.DTO.Responses;
-using TestWebASP.NET.Models;
-using TestWebASP.NET.Services;
 
-namespace TestWebASP.NET.Controllers
+namespace MovieWebASP.NET.Controllers
 {
     [Route("api/v1/movies")]
     [ApiController]

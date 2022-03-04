@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TestWebASP.NET.Models;
+using MovieWebASP.NET.Models;
 
-namespace TestWebASP.NET.Data
+namespace MovieWebASP.NET.Data
 {
     public class ApplicationDbContext : DbContext
     {

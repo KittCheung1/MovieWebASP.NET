@@ -1,4 +1,4 @@
-﻿namespace TestWebASP.NET.DTO.Franchise
+﻿namespace MovieWebASP.NET.DTO.Franchise
 {
     public class UpdateFranchiseDTO
     {

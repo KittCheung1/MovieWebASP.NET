@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using TestWebASP.NET.DTO.Requests;
-using TestWebASP.NET.DTO.Responses;
+using MovieWebASP.NET.DTO.Requests;
+using MovieWebASP.NET.DTO.Responses;
 
-namespace TestWebASP.NET.Services
+namespace MovieWebASP.NET.Services
 {
     public interface ICharacterService
     {

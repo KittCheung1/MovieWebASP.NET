@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using MovieWebASP.NET.Data;
+using MovieWebASP.NET.DTO.Franchise;
+using MovieWebASP.NET.DTO.Responses;
+using MovieWebASP.NET.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TestWebASP.NET.Data;
-using TestWebASP.NET.DTO.Franchise;
-using TestWebASP.NET.DTO.Responses;
-using TestWebASP.NET.Models;
 
-namespace TestWebASP.NET.Services
+namespace MovieWebASP.NET.Services
 {
     public class FranchiseService : IFranchiseService
     {
