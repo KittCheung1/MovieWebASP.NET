@@ -84,30 +84,15 @@ namespace TestWebASP.NET.Controllers
         /// Update characters to a movie
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="characters"></param>
+        /// <param name="characterIds"></param>
         /// <returns></returns>
 
-        //[HttpPut("characters/{id}")]
-        //public async Task<ActionResult> AddCharactersToMovie(int id, [FromBody] List<int> characters)
-        //{
-        //    var dbMovie = await _dbcontext.Movies.Include(m => m.Characters).FirstOrDefaultAsync(m => m.Id == id);
-        //    if (dbMovie == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var characterInList = new List<Character>();
-        //    foreach (var character in characters)
-        //    {
-        //        var c = await _dbcontext.Characters.FindAsync(character);
-        //        if (c != null)
-        //        {
-        //            dbMovie.Characters.Add(c);
-        //        }
-        //    }
-        //    await _dbcontext.SaveChangesAsync();
-
-        //    return NoContent();
-        //}
+        [HttpPut("characters/{id}")]
+        public async Task<ActionResult> UpdateCharactersToMovie(int id, [FromBody] List<int> characterIds)
+        {
+            await _movieService.UpdateCharactersToMovieAsync(id, characterIds);
+            return Ok();
+        }
 
         /// <summary>
         /// Create a movie

@@ -13,6 +13,8 @@ namespace TestWebASP.NET.Profiles
                 .ReverseMap();
             CreateMap<Movie, CreateMovieDTO>()
                 .ReverseMap();
+            CreateMap<Movie, UpdateMovieDTO>()
+                .ReverseMap();
         }
     }
 }

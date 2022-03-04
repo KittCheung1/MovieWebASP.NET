@@ -10,8 +10,8 @@ using TestWebASP.NET.Data;
 namespace TestWebASP.NET.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220303180103_tester")]
-    partial class tester
+    [Migration("20220304070322_1")]
+    partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

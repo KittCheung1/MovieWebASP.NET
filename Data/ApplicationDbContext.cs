@@ -87,22 +87,6 @@ namespace TestWebASP.NET.Data
                }
              );
 
-            //modelBuilder.Entity<Movie>()
-            //    .HasMany(m => m.Characters)
-            //    .WithMany(c => c.Movies)
-            //    .UsingEntity<Dictionary<string, object>>("MovieCharacter",
-            //    r => r.HasOne<Character>().WithMany().HasForeignKey("CharacterId"),
-            //    l => l.HasOne<Movie>().WithMany().HasForeignKey("MovieId"),
-            //    j =>
-            //    {
-            //        j.HasKey("CharacterId", "MovieId");
-            //        j.HasData(
-            //             new { CharacterId = 1, MovieId = 1 },
-            //             new { CharacterId = 2, MovieId = 2 },
-            //             new { CharacterId = 2, MovieId = 3 }
-            //     );
-            //    });
-
             modelBuilder.Entity<Movie>()
                  .HasMany(m => m.Characters)
                  .WithMany(c => c.Movies)

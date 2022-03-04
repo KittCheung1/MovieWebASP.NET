@@ -14,9 +14,11 @@ namespace TestWebASP.NET.Services
         private readonly ApplicationDbContext _dbcontext;
         private readonly IMapper _mapper;
 
-        public CharacterService(ApplicationDbContext dbcontext)
+        public CharacterService(ApplicationDbContext dbcontext, IMapper mapper)
         {
             _dbcontext = dbcontext;
+            _mapper = mapper;
+
         }
 
         public async Task<ReadCharacterDTO> CreateCharacterAsync(CreateCharacterDTO character)
@@ -48,7 +50,7 @@ namespace TestWebASP.NET.Services
 
         public async Task<ReadCharacterDTO> GetCharacterAsync(int id)
         {
-            var foundCharacter = await _dbcontext.Characters.FindAsync(id);
+            var foundCharacter = await _dbcontext.Characters.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id);
 
 
             if (foundCharacter == null)
@@ -67,6 +69,7 @@ namespace TestWebASP.NET.Services
             }
 
             Character dbCharacter = _mapper.Map<Character>(character);
+            dbCharacter.Id = id;
             _dbcontext.Entry(dbCharacter).State = EntityState.Modified;
             await _dbcontext.SaveChangesAsync();
 

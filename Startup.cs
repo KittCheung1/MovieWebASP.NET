@@ -9,6 +9,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using TestWebASP.NET.Data;
+using TestWebASP.NET.Services;
 
 namespace TestWebASP.NET
 {
@@ -34,6 +35,9 @@ namespace TestWebASP.NET
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
+            services.AddScoped(typeof(ICharacterService), typeof(CharacterService));
+            services.AddScoped(typeof(IFranchiseService), typeof(FranchiseService));
+            services.AddScoped(typeof(IMovieService), typeof(MovieService));
             services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<ApplicationDbContext>(context => context.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }

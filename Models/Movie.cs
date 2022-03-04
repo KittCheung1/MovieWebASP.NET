@@ -16,7 +16,9 @@ namespace TestWebASP.NET.Models
         public int ReleaseYear { get; set; }
         [MaxLength(50)]
         public string Director { get; set; }
+        [MaxLength(200)]
         public string Picture { get; set; }
+        [MaxLength(200)]
         public string Trailer { get; set; }
         public Franchise Franchise { get; set; }
         public ICollection<Character> Characters { get; set; } = new HashSet<Character>();

@@ -96,21 +96,14 @@ namespace TestWebASP.NET.Controllers
         /// Add / Update a movie in Franchise
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="movieId"></param>
+        /// <param name="movieIds"></param>
         /// <returns></returns>
-        //[HttpPut("movie/{id}")]
-        //public async Task<IActionResult> UpdateMovieInFranchise(int id, [FromBody] int movieId)
-        //{
-        //    var dbFranchise = await _dbcontext.Franchises.Include(f => f.Movies).FirstOrDefaultAsync(f => f.Id == id);
-        //    var movie = await _dbcontext.Movies.FindAsync(movieId);
-        //    if (dbFranchise == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    dbFranchise.Movies.Add(movie);
-        //    await _dbcontext.SaveChangesAsync();
-        //    return Ok();
-        //}
+        [HttpPut("movie/{id}")]
+        public async Task<IActionResult> UpdateMovieInFranchise(int id, [FromBody] List<int> movieIds)
+        {
+            await _franchiseService.UpdateMovieInFranchiseAsync(movieIds, id);
+            return Ok();
+        }
 
         /// <summary>
         /// Create a franchise

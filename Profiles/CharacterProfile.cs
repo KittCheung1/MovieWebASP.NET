@@ -16,10 +16,9 @@ namespace TestWebASP.NET.Profiles
             CreateMap<Character, CreateCharacterDTO>()
                 .ReverseMap();
 
-            //CreateMap<Character, UpdateCharacterDTO>()
-            //    .ForMember(characterReadDTO => characterReadDTO.Movie, opt => opt
-            //    .MapFrom(c => c.Movies))
-            //    .ReverseMap();
+            CreateMap<Character, UpdateCharacterDTO>()
+                .ReverseMap();
+
         }
     }
 }

@@ -15,31 +15,28 @@ namespace TestWebASP.NET.Services
         private readonly ApplicationDbContext _dbcontext;
         private readonly IMapper _mapper;
 
-        public MovieService(ApplicationDbContext dbContext)
+        public MovieService(ApplicationDbContext dbContext, IMapper mapper)
         {
             _dbcontext = dbContext;
+            _mapper = mapper;
         }
 
-        //public async Task<bool> AddCharactersToMovieAsync(FROMBODY , int id)
-        //{
-        //    var dbMovie = await _dbcontext.Movies.Include(m => m.Characters).FirstOrDefaultAsync(m => m.Id == id);
-        //    if (dbMovie == null)
-        //    {
-        //        return false;
-        //    }
-        //    var characterInList = new List<Character>();
-        //    foreach (var character in characters)
-        //    {
-        //        var c = await _dbcontext.Characters.FindAsync(character);
-        //        if (c != null)
-        //        {
-        //            dbMovie.Characters.Add(c);
-        //        }
-        //    }
-        //    await _dbcontext.SaveChangesAsync();
+        public async Task<bool> UpdateCharactersToMovieAsync(int id, List<int> characterIds)
+        {
+            var dbMovie = await _dbcontext.Movies.Include(m => m.Characters).FirstOrDefaultAsync(m => m.Id == id);
+            if (dbMovie == null)
+            {
+                return false;
+            }
+            foreach (var character in characterIds)
+            {
+                var tempCharacter = await _dbcontext.Characters.FirstOrDefaultAsync(c => c.Id == character);
+                dbMovie.Characters.Add(tempCharacter);
+            }
+            await _dbcontext.SaveChangesAsync();
 
-        //    return NoContent();
-        //}
+            return true;
+        }
 
         public async Task<ReadMovieDTO> CreateMovieAsync(CreateMovieDTO createMovie)
         {
@@ -84,7 +81,7 @@ namespace TestWebASP.NET.Services
 
         public async Task<ReadMovieDTO> GetMovieAsync(int id)
         {
-            var foundMovie = await _dbcontext.Movies.FindAsync(id);
+            var foundMovie = await _dbcontext.Movies.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id);
 
             if (foundMovie == null)
             {
@@ -100,6 +97,7 @@ namespace TestWebASP.NET.Services
                 return false;
             }
             Movie dbMovie = _mapper.Map<Movie>(updateMovie);
+            dbMovie.Id = id;
             _dbcontext.Entry(dbMovie).State = EntityState.Modified;
             await _dbcontext.SaveChangesAsync();
 

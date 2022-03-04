@@ -13,6 +13,8 @@ namespace TestWebASP.NET.Profiles
 
             CreateMap<Franchise, CreateFranchiseDTO>()
                     .ReverseMap();
+            CreateMap<Franchise, UpdateFranchiseDTO>()
+                    .ReverseMap();
 
         }
     }

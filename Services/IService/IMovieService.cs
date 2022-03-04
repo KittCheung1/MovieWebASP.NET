@@ -12,7 +12,7 @@ namespace TestWebASP.NET.Services
         public Task<IEnumerable<ReadCharacterDTO>> GetAllCharacterInMovieAsync(int id);
         public Task<ReadMovieDTO> CreateMovieAsync(CreateMovieDTO createMovie);
         public Task<bool> UpdateMovieAsync(UpdateMovieDTO updateMovie, int id);
-        //public Task<bool> AddCharactersToMovieAsync(UpdateMovieDTO updateMovie, int id);
+        public Task<bool> UpdateCharactersToMovieAsync(int id, List<int> characterIds);
         public Task<bool> DeleteMovieAsync(int id);
     }
 }

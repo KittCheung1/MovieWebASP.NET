@@ -2,7 +2,7 @@
 
 namespace TestWebASP.NET.Migrations
 {
-    public partial class tester : Migration
+    public partial class _1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

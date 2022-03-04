@@ -14,9 +14,10 @@ namespace TestWebASP.NET.Services
     {
         private readonly ApplicationDbContext _dbcontext;
         private readonly IMapper _mapper;
-        public FranchiseService(ApplicationDbContext dbcontext)
+        public FranchiseService(ApplicationDbContext dbcontext, IMapper mapper)
         {
             _dbcontext = dbcontext;
+            _mapper = mapper;
         }
 
         public async Task<ReadFranchiseDTO> CreateFranchiseAsync(CreateFranchiseDTO franchise)
@@ -73,7 +74,7 @@ namespace TestWebASP.NET.Services
 
         public async Task<ReadFranchiseDTO> GetFranchiseAsync(int id)
         {
-            var foundFranchise = await _dbcontext.Franchises.FindAsync(id);
+            var foundFranchise = await _dbcontext.Franchises.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id);
 
 
             if (foundFranchise == null)
@@ -91,24 +92,32 @@ namespace TestWebASP.NET.Services
                 return false;
             }
             Franchise dbFranchise = _mapper.Map<Franchise>(updateFranchise);
+            dbFranchise.Id = id;
             _dbcontext.Entry(dbFranchise).State = EntityState.Modified;
             await _dbcontext.SaveChangesAsync();
 
             return true;
         }
 
-        //public async Task<bool> UpdateMovieInFranchiseAsync(UpdateFranchiseDTO updateMovie, int id)
-        //{
-        //    var dbFranchise = await _dbcontext.Franchises.Include(f => f.Movies).FirstOrDefaultAsync(f => f.Id == id);
-        //    var movie = await _dbcontext.Movies.FindAsync(movieId);
-        //    if (dbFranchise == null)
-        //    {
-        //        return false;
-        //    }
-        //    dbFranchise.Movies.Add(movie);
-        //    await _dbcontext.SaveChangesAsync();
-        //    return true;
-        //}
+        public async Task<bool> UpdateMovieInFranchiseAsync(List<int> movieIds, int id)
+        {
+            var dbFranchise = await _dbcontext.Franchises.Include(f => f.Movies).FirstOrDefaultAsync(f => f.Id == id);
+
+            if (dbFranchise == null)
+            {
+                return false;
+            }
+
+            foreach (var movieId in movieIds)
+            {
+                var tempMovie = await _dbcontext.Movies.FirstOrDefaultAsync(m => m.Id == movieId);
+                dbFranchise.Movies.Add(tempMovie);
+
+            }
+            await _dbcontext.SaveChangesAsync();
+
+            return true;
+        }
 
         private async Task<bool> FranchiseExists(int id)
         {
